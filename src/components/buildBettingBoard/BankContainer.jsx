@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function BankContainer() {
-  return <div className="bankContainer"></div>;
+export default function BankContainer(props) {
+  return <div className="bankContainer">{props.children}</div>;
 }

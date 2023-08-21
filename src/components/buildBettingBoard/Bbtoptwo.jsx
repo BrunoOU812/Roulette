@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function Bbtoptwo() {
-  return <div className="bbtoptwo"></div>;
+export default function Bbtoptwo(props) {
+  return <div className="bbtoptwo">{props.children}</div>;
 }

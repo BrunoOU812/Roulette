@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function Nbnz() {
-  return <div className="nbn"></div>;
+export default function Nbnz(props) {
+  return <div className="nbn">{props.children}</div>;
 }

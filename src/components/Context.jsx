@@ -17,6 +17,7 @@ export default function ContextProvider({ children }) {
   const [betSpan, setBetSpan] = useState(0);
   const [chips, setChips] = useState([]);
   const [spinBtnValue, setSpinBtn] = useState(true);
+  const [chipValues, setChipValues] = useState(["1", "5", "10", "100"]);
   const numRed = [
     1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36,
   ];
@@ -154,6 +155,8 @@ export default function ContextProvider({ children }) {
     setBet: setBet,
     spinBtnValue: spinBtnValue,
     setSpinBtn: setSpinBtn,
+    chipValues: chipValues,
+    setChipValues: setChipValues,
   };
   return (
     <CasinoContext.Provider value={casinoContextvalues}>

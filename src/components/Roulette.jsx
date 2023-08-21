@@ -26,6 +26,8 @@ export default function Roulette() {
     setBankSpan,
     betSpan,
     setBetSpan,
+    setBet,
+    removeBet,
   } = useCasino();
 
   let container = document.createElement("div");

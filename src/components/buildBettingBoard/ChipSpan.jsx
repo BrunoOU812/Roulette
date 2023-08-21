@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function ChipSpan() {
-  return <div className="cdChipSpan"></div>;
+export default function ChipSpan(props) {
+  return <div className="cdChipSpan">{props.children}</div>;
 }

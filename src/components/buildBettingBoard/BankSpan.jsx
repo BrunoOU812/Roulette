@@ -1,7 +1,7 @@
 import React from "react";
-import { CasinoContext } from "../Context";
+import { useCasino } from "../Context";
 
 export default function BankSpan() {
-  const { bankSpan } = CasinoContext();
+  const { bankSpan } = useCasino();
   return <div id="bankSpan">{bankSpan}</div>;
 }

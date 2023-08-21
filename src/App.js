@@ -4,6 +4,8 @@ import "./App.css";
 import Wheel from "./components/buildWheel/Wheel";
 import ContextProvider from "./components/Context";
 import BettingBoard from "./components/buildBettingBoard/BettingBoard";
+import Ttbbetblock from "./components/buildBettingBoard/Ttbbetblock";
+import Wl from "./components/buildBettingBoard/Wl";
 function App() {
   return (
     <ContextProvider>
@@ -11,7 +13,7 @@ function App() {
         <div id="container">
           <Wheel />
           <BettingBoard />
-          <>
+          {/* <>
             <div id="betting_board">
               <div class="winning_lines">
                 <div id="wlttb_top" class="wlttb">
@@ -317,7 +319,7 @@ function App() {
                 <div id="pnContent"></div>
               </div>
             </div>
-          </>
+          </> */}
         </div>
       </div>
     </ContextProvider>
