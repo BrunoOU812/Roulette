@@ -5,7 +5,7 @@ export default function Bbtoptwo(props) {
   const [chip, setChip] = useState(false);
   const [chipValue, setChipValue] = useState(0);
   const [chipColour, setChipColour] = useState("red");
-  const { wager, setBankValue, setCurrentBet } = useCasino();
+  const { wager, setBankValue, setCurrentBet, clear } = useCasino();
   useEffect(() => {
     chipValue >= 100
       ? setChipColour("gold")
@@ -16,8 +16,11 @@ export default function Bbtoptwo(props) {
       : setChipColour("red");
     if (chipValue === 0) {
       setChip(false);
+    } else if (clear) {
+      setChip(false);
     }
-  }, [chipValue]);
+  }, [chipValue, clear]);
+
   return (
     <div
       className="bbtoptwo"

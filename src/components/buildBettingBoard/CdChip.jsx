@@ -9,6 +9,7 @@ export default function CdChip(props) {
     setWager,
     setBankValue,
     setCurrentBet,
+    clearBet,
   } = useCasino();
   const i = props.index;
   let cvi = i;
@@ -22,12 +23,11 @@ export default function CdChip(props) {
             j === i ? true : false
           );
           setChipActive(updateActiveChips);
-          setWager(parseInt(arr[i]));
+          setWager(arr[i]);
         } else {
           setBankValue((prevState) => prevState + currentBet);
-          setCurrentBet(arr[i]);
-          // clearBet();
-          // removeChips();
+          setCurrentBet(0);
+          clearBet(true);
         }
       }}
     >

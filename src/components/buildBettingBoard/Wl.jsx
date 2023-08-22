@@ -5,15 +5,12 @@ import Rtlbb from "./Rtlbb";
 import Wlcb from "./Wlcb";
 import Cbbb from "./Cbbb";
 import Ttbbetblock from "./Ttbbetblock";
-import { useCasino } from "../Context";
 
 export default function Wl() {
-  const { setBet, removeBet } = useCasino();
-
   return (
     <div className="winning_lines">
       <Wlttb id={`wlttb_top`}>
-        {Array(12)
+        {Array(11)
           .fill()
           .map((_, i) => {
             let j = i;
@@ -54,7 +51,7 @@ export default function Wl() {
                 .fill()
                 .map((_, i) => {
                   const j = i;
-                  return <Ttbbetblock />;
+                  return <Ttbbetblock key={i} />;
                 })}
             </Wlttb>
           );
@@ -72,7 +69,7 @@ export default function Wl() {
                   let numA = 3 + 3 * (d - 1) - (j - 1);
                   let numB = 6 + 3 * (d - 1) - (j - 1);
                   let num = numA + ", " + numB;
-                  return <Rtlbb index={i} />;
+                  return <Rtlbb key={i} index={i} />;
                 })}
             </Wlrtl>
           );
@@ -110,7 +107,7 @@ export default function Wl() {
                         ", " +
                         (parseInt(numD) - 1 + (count - 12) * 3);
                   let objType = "corner_bet";
-                  return <Cbbb index={i} />;
+                  return <Cbbb key={i} index={i} />;
                 })}
             </Wlcb>
           );

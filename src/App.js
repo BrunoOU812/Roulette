@@ -1,5 +1,3 @@
-import logo from "./logo.svg";
-// import Roulette from "./components/Roulette";
 import Wheel from "./components/buildWheel/Wheel";
 import ContextProvider from "./components/Context";
 import BettingBoard from "./components/buildBettingBoard/BettingBoard";
