@@ -12,52 +12,49 @@ export default function Wl() {
 
   return (
     <div className="winning_lines">
+      <Wlttb id={`wlttb_top`}>
+        {Array(12)
+          .fill()
+          .map((_, i) => {
+            let j = i;
+            const numA = 1 + 3 * j;
+            const numB = 2 + 3 * j;
+            const numC = 3 + 3 * j;
+            const numD = 4 + 3 * j;
+            const numE = 5 + 3 * j;
+            const numF = 6 + 3 * j;
+            const num =
+              numA +
+              ", " +
+              numB +
+              ", " +
+              numC +
+              ", " +
+              numD +
+              ", " +
+              numE +
+              ", " +
+              numF;
+            const objType = "double_street";
+            return (
+              <Ttbbetblock
+                key={i}
+                props={{ target: this, num: num, type: objType, odd: 5 }}
+              />
+            );
+          })}
+      </Wlttb>
       {Array(3)
         .fill()
         .map((_, c) => {
           let d = c;
           return (
-            <Wlttb key={c} id={`wlttb_${c}`}>
-              {Array(11)
+            <Wlttb key={c} id={`wlttb_${c + 1}`}>
+              {Array(12)
                 .fill()
                 .map((_, i) => {
                   const j = i;
-                  return (
-                    <Ttbbetblock
-                      key={`wlttb_${c}${i}`}
-                      onClick={() => {
-                        if (d == 1 || d == 2) {
-                          var numA = 2 - (d - 1) + 3 * j;
-                          var numB = 3 - (d - 1) + 3 * j;
-                          var num = numA + ", " + numB;
-                        } else {
-                          var numA = 1 + 3 * j;
-                          var numB = 2 + 3 * j;
-                          var numC = 3 + 3 * j;
-                          var num = numA + ", " + numB + ", " + numC;
-                        }
-                        var objType = d == 3 ? "street" : "split";
-                        var odd = d == 3 ? 11 : 17;
-                        setBet(3, num, objType, odd);
-                      }}
-                      onContextMenu={(e) => {
-                        e.preventDefault();
-                        if (d == 1 || d == 2) {
-                          var numA = 2 - (d - 1) + 3 * j;
-                          var numB = 3 - (d - 1) + 3 * j;
-                          var num = numA + ", " + numB;
-                        } else {
-                          var numA = 1 + 3 * j;
-                          var numB = 2 + 3 * j;
-                          var numC = 3 + 3 * j;
-                          var num = numA + ", " + numB + ", " + numC;
-                        }
-                        var objType = d == 3 ? "street" : "split";
-                        var odd = d == 3 ? 11 : 17;
-                        removeBet(3, num, objType, odd);
-                      }}
-                    />
-                  );
+                  return <Ttbbetblock />;
                 })}
             </Wlttb>
           );
@@ -67,7 +64,7 @@ export default function Wl() {
         .map((_, c) => {
           let d = c;
           return (
-            <Wlrtl key={c} id={`wlrtl_${c}`}>
+            <Wlrtl key={c} id={`wlrtl_${c + 1}`}>
               {Array(3)
                 .fill()
                 .map((_, i) => {
@@ -75,19 +72,7 @@ export default function Wl() {
                   let numA = 3 + 3 * (d - 1) - (j - 1);
                   let numB = 6 + 3 * (d - 1) - (j - 1);
                   let num = numA + ", " + numB;
-                  return (
-                    <Rtlbb
-                      key={`${i}`}
-                      className={`rtlbb${i}`}
-                      onClick={() => {
-                        setBet(3, num, "split", 17);
-                      }}
-                      onContextMenu={(e) => {
-                        e.preventDefault();
-                        removeBet(3, num, "split", 17);
-                      }}
-                    />
-                  );
+                  return <Rtlbb index={i} />;
                 })}
             </Wlrtl>
           );
@@ -96,7 +81,7 @@ export default function Wl() {
         .fill()
         .map((_, c) => {
           return (
-            <Wlcb id={`wlcb_${c}`}>
+            <Wlcb key={c} index={c}>
               {Array(11)
                 .fill()
                 .map((_, i) => {
@@ -125,19 +110,7 @@ export default function Wl() {
                         ", " +
                         (parseInt(numD) - 1 + (count - 12) * 3);
                   let objType = "corner_bet";
-                  return (
-                    <Cbbb
-                      key={i}
-                      id={`cbbb_${count}`}
-                      onClick={() => {
-                        setBet(3, num, objType, 8);
-                      }}
-                      onContextMenu={(e) => {
-                        e.preventDefault();
-                        removeBet(3, num, objType, 8);
-                      }}
-                    />
-                  );
+                  return <Cbbb index={i} />;
                 })}
             </Wlcb>
           );

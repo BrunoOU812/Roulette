@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
-import Chip from "./buildBettingBoard/Chip";
+import Chip from "./buildBettingBoard/CdChip";
 import ChipSpan from "./buildBettingBoard/ChipSpan";
 export const CasinoContext = createContext();
 export const useCasino = () => {
@@ -13,11 +13,18 @@ export default function ContextProvider({ children }) {
   const [bet, setBetValue] = useState([]);
   const [numbersBet, setNumbersBet] = useState([]);
   const [previousNumbers, setPreviousNumbers] = useState([]);
-  const [bankSpan, setBankSpan] = useState(0);
+  const [bankSpan, setBankSpan] = useState(1000);
   const [betSpan, setBetSpan] = useState(0);
   const [chips, setChips] = useState([]);
   const [spinBtnValue, setSpinBtn] = useState(true);
   const [chipValues, setChipValues] = useState(["1", "5", "10", "100"]);
+  const [chipActive, setChipActive] = useState([
+    false,
+    true,
+    false,
+    false,
+    false,
+  ]);
   const numRed = [
     1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36,
   ];
@@ -29,7 +36,7 @@ export default function ContextProvider({ children }) {
   function removeBet({ target: e, number: n, type: t, isOdd: o }) {
     setWager((prevState) => (prevState == 0 ? 100 : prevState));
     for (let i = 0; i < bet.length; i++) {
-      if (bet[i].numbers == n && bet[i].type == t) {
+      if (bet[i].numbers === n && bet[i].type === t) {
         if (bet[i].amt != 0) {
           setWager((prevState) =>
             bet[i].amt > prevState ? prevState : bet[i].amt
@@ -63,7 +70,7 @@ export default function ContextProvider({ children }) {
         }
       }
     }
-    if (currentBet == 0 && spinBtnValue) {
+    if (currentBet === 0 && spinBtnValue) {
       setSpinBtn(false);
     }
   }
@@ -80,7 +87,7 @@ export default function ContextProvider({ children }) {
       setBankSpan("" + bankValue.toLocaleString("en-GB") + "");
       setBetSpan("" + currentBet.toLocaleString("en-GB") + "");
       for (let i = 0; i < bet.length; i++) {
-        if (bet[i].numbers == n && bet[i].type == t) {
+        if (bet[i].numbers === n && bet[i].type === t) {
           bet[i].amt = bet[i].amt + wager;
           let chipColour =
             bet[i].amt < 5
@@ -157,6 +164,8 @@ export default function ContextProvider({ children }) {
     setSpinBtn: setSpinBtn,
     chipValues: chipValues,
     setChipValues: setChipValues,
+    chipActive: chipActive,
+    setChipActive: setChipActive,
   };
   return (
     <CasinoContext.Provider value={casinoContextvalues}>

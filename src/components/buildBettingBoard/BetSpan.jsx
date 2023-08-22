@@ -1,7 +1,7 @@
 import React from "react";
-import { CasinoContext } from "../Context";
+import { useCasino } from "../Context";
 
 export default function BetSpan() {
-  const { betSpan } = CasinoContext();
-  return <div id="betSpan">{betSpan}</div>;
+  const { currentBet } = useCasino();
+  return <div id="betSpan">{"" + currentBet.toLocaleString("en-GB") + ""}</div>;
 }
