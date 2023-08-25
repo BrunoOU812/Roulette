@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
-import Chip from "./buildBettingBoard/CdChip";
-import ChipSpan from "./buildBettingBoard/ChipSpan";
 export const CasinoContext = createContext();
 export const useCasino = () => {
   return useContext(CasinoContext);
@@ -15,9 +13,9 @@ export default function ContextProvider({ children }) {
   const [previousNumbers, setPreviousNumbers] = useState([]);
   const [bankSpan, setBankSpan] = useState(1000);
   const [betSpan, setBetSpan] = useState(0);
-  const [chips, setChips] = useState([]);
-  const [spinBtnValue, setSpinBtn] = useState(true);
   const [chipValues, setChipValues] = useState(["1", "5", "10", "100"]);
+  const [spinBtnValue, setSpinBtn] = useState(true);
+  const [spin, setSpin] = useState(false);
   const [chipActive, setChipActive] = useState([
     false,
     true,
@@ -38,110 +36,48 @@ export default function ContextProvider({ children }) {
       clearBet(false);
     }
   }, [clear]);
-  function removeBet({ target: e, number: n, type: t, isOdd: o }) {
-    setWager((prevState) => (prevState == 0 ? 100 : prevState));
-    for (let i = 0; i < bet.length; i++) {
-      if (bet[i].numbers === n && bet[i].type === t) {
-        if (bet[i].amt != 0) {
-          setWager((prevState) =>
-            bet[i].amt > prevState ? prevState : bet[i].amt
-          );
-          const updatedBet = [...bet];
-          updatedBet[i].amt = updatedBet[i].amt - wager;
-          setBetValue(updatedBet);
-          setBankValue((prevState) => prevState + wager);
-          setCurrentBet((prevState) => prevState - wager);
-          setBankSpan("" + bankValue.toLocaleString("en-GB") + "");
-          setBetSpan("" + currentBet.toLocaleString("en-GB") + "");
-          if (bet[i].amt === 0) {
-            let updateChips = [...chips];
-            updateChips[e] = { cls: ``, style: `display:none` };
-            setChips(updateChips);
-          } else {
-            let chipColour =
-              bet[i].amt < 5
-                ? "red"
-                : bet[i].amt < 10
-                ? "blue"
-                : bet[i].amt < 100
-                ? "orange"
-                : "gold";
-            let updateChips = [...chips];
-            updateChips[e] = { cls: `chip${chipColour}`, style: `` };
-            setChips(updateChips);
-            let chipSpan = e.querySelector(".chipSpan");
-            chipSpan.innerText = bet[i].amt;
-          }
-        }
-      }
+  useEffect(() => {
+    if (currentBet > 0) {
+      setSpinBtn(true);
     }
-    if (currentBet === 0 && spinBtnValue) {
-      setSpinBtn(false);
-    }
-  }
+  }, [currentBet]);
 
-  function setBet({ target: e, number: n, type: t, isOdd: o }) {
-    setLastWager(wager);
-    setWager((prevState) => (bankValue < prevState ? bankValue : prevState));
-    if (wager > 0) {
-      if (spinBtnValue) {
-        setSpinBtn(true);
-      }
+  const setBet = ({
+    chip: chip,
+    setChip: setChip,
+    setChipValue: setChipValue,
+  }) => {
+    if (!spin) {
       setBankValue((prevState) => prevState - wager);
       setCurrentBet((prevState) => prevState + wager);
-      setBankSpan("" + bankValue.toLocaleString("en-GB") + "");
-      setBetSpan("" + currentBet.toLocaleString("en-GB") + "");
-      for (let i = 0; i < bet.length; i++) {
-        if (bet[i].numbers === n && bet[i].type === t) {
-          bet[i].amt = bet[i].amt + wager;
-          let chipColour =
-            bet[i].amt < 5
-              ? "red"
-              : bet[i].amt < 10
-              ? "blue"
-              : bet[i].amt < 100
-              ? "orange"
-              : "gold";
-          let updateChips = [...chips];
-          updateChips[e] = { cls: `chip${chipColour}`, style: `` };
-          setChips(updateChips);
-          let chipSpan = e.querySelector(".chipSpan");
-          chipSpan.innerText = bet[i].amt;
-        }
-      }
-      let obj = {
-        amt: wager,
-        type: t,
-        odds: o,
-        numbers: n,
-      };
-      setBetValue((prevState) => [...prevState, obj]);
-      let numArray = n.split(",").map(Number);
-      for (let i = 0; i < numArray.length; i++) {
-        if (!numbersBet.includes(numArray[i])) {
-          setNumbersBet((prevState) => [...prevState, numArray[i]]);
-        }
-      }
-
-      if (!e.querySelector(".chip")) {
-        let chipColour =
-          wager < 5
-            ? "red"
-            : wager < 10
-            ? "blue"
-            : wager < 100
-            ? "orange"
-            : "gold";
-        const chip = (
-          <Chip className={`chip${chipColour}`}>
-            <ChipSpan>{wager}</ChipSpan>
-          </Chip>
-        );
-        e.append(chip);
+      if (chip) {
+        setChipValue((prevState) => prevState + wager);
+      } else {
+        setChipValue(wager);
+        setChip(true);
       }
     }
-  }
-
+  };
+  const removeBet = ({
+    e: e,
+    chipValue: chipValue,
+    setChipValue: setChipValue,
+  }) => {
+    if (!spin) {
+      e.preventDefault();
+      if (chipValue > 0) {
+        if (chipValue > wager) {
+          setBankValue((prevState) => prevState + wager);
+          setCurrentBet((prevState) => prevState - wager);
+          setChipValue((prevState) => prevState - wager);
+        } else {
+          setBankValue((prevState) => prevState + chipValue);
+          setCurrentBet((prevState) => prevState - chipValue);
+          setChipValue(0);
+        }
+      }
+    }
+  };
   const casinoContextvalues = {
     bankValue: bankValue,
     setBankValue: setBankValue,
@@ -163,8 +99,6 @@ export default function ContextProvider({ children }) {
     setBankSpan: setBankSpan,
     betSpan: betSpan,
     setBetSpan: setBetSpan,
-    removeBet: removeBet,
-    setBet: setBet,
     spinBtnValue: spinBtnValue,
     setSpinBtn: setSpinBtn,
     chipValues: chipValues,
@@ -173,6 +107,10 @@ export default function ContextProvider({ children }) {
     setChipActive: setChipActive,
     clear: clear,
     clearBet: clearBet,
+    spin: spin,
+    setSpin: setSpin,
+    setBet: setBet,
+    removeBet: removeBet,
   };
   return (
     <CasinoContext.Provider value={casinoContextvalues}>

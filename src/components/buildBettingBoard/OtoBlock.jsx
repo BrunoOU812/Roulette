@@ -5,7 +5,7 @@ export default function OtoBlock(props) {
   const [chip, setChip] = useState(false);
   const [chipValue, setChipValue] = useState(0);
   const [chipColour, setChipColour] = useState("red");
-  const { wager, setBankValue, setCurrentBet } = useCasino();
+  const { clear, setBet, removeBet } = useCasino();
   useEffect(() => {
     chipValue >= 100
       ? setChipColour("gold")
@@ -16,34 +16,22 @@ export default function OtoBlock(props) {
       : setChipColour("red");
     if (chipValue === 0) {
       setChip(false);
+    } else if (clear) {
+      setChip(false);
     }
-  }, [chipValue]);
+  }, [chipValue, clear]);
   return (
     <div
       className={props.className}
       onClick={() => {
-        setBankValue((prevState) => prevState - wager);
-        setCurrentBet((prevState) => prevState + wager);
-        if (chip) {
-          setChipValue((prevState) => prevState + wager);
-        } else {
-          setChipValue(wager);
-          setChip(true);
-        }
+        setBet({ chip: chip, setChip: setChip, setChipValue: setChipValue });
       }}
       onContextMenu={(e) => {
-        e.preventDefault();
-        if (chipValue > 0) {
-          if (chipValue > wager) {
-            setBankValue((prevState) => prevState + wager);
-            setCurrentBet((prevState) => prevState - wager);
-            setChipValue((prevState) => prevState - wager);
-          } else {
-            setBankValue((prevState) => prevState + chipValue);
-            setCurrentBet((prevState) => prevState - chipValue);
-            setChipValue(0);
-          }
-        }
+        removeBet({
+          e: e,
+          chipValue: chipValue,
+          setChipValue: setChipValue,
+        });
       }}
     >
       {props.children}

@@ -1,16 +1,17 @@
 import React from "react";
-import { CasinoContext } from "../Context";
+import { useCasino } from "../Context";
 
-export default function spinBtn() {
-  const { spinBtnValue, setSpinBtn } = CasinoContext();
+export default function SpinBtn() {
+  const { spinBtnValue, setSpinBtn, setSpin, currentBet } = useCasino();
   return (
     <div
-      className={`${spinBtnValue ? "spinBtn" : ""}`}
+      className={`${currentBet > 0 && spinBtnValue ? "spinBtn" : ""}`}
       onClick={() => {
+        setSpin(true);
         setSpinBtn(false);
       }}
     >
-      Spin
+      {currentBet > 0 && spinBtnValue && "Spin"}
     </div>
   );
 }

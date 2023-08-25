@@ -10,6 +10,7 @@ export default function CdChip(props) {
     setBankValue,
     setCurrentBet,
     clearBet,
+    spin,
   } = useCasino();
   const i = props.index;
   let cvi = i;
@@ -18,16 +19,18 @@ export default function CdChip(props) {
     <div
       className={`${props.className} ${chipActive[i] && "cdChipActive"}`}
       onClick={() => {
-        if (cvi !== 4) {
-          const updateActiveChips = chipActive.map((_, j) =>
-            j === i ? true : false
-          );
-          setChipActive(updateActiveChips);
-          setWager(arr[i]);
-        } else {
-          setBankValue((prevState) => prevState + currentBet);
-          setCurrentBet(0);
-          clearBet(true);
+        if (!spin) {
+          if (cvi !== 4) {
+            const updateActiveChips = chipActive.map((_, j) =>
+              j === i ? true : false
+            );
+            setChipActive(updateActiveChips);
+            setWager(arr[i]);
+          } else {
+            setBankValue((prevState) => prevState + currentBet);
+            setCurrentBet(0);
+            clearBet(true);
+          }
         }
       }}
     >
