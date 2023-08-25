@@ -5,7 +5,7 @@ export default function OtoBlock(props) {
   const [chip, setChip] = useState(false);
   const [chipValue, setChipValue] = useState(0);
   const [chipColour, setChipColour] = useState("red");
-  const { clear, setBet, removeBet } = useCasino();
+  const { clear, setBet, removeBet, setOtoPlay } = useCasino();
   useEffect(() => {
     chipValue >= 100
       ? setChipColour("gold")
@@ -24,17 +24,21 @@ export default function OtoBlock(props) {
     <div
       className={props.className}
       onClick={() => {
-        setBet({ chip: chip, setChip: setChip, setChipValue: setChipValue });
+        setBet({ chip, setChip, setChipValue });
+        setOtoPlay((prevState) => ({
+          ...prevState,
+          [props.type]: chipValue,
+        }));
       }}
       onContextMenu={(e) => {
-        removeBet({
-          e: e,
-          chipValue: chipValue,
-          setChipValue: setChipValue,
-        });
+        removeBet({ e, chipValue, setChipValue });
+        setOtoPlay((prevState) => ({
+          ...prevState,
+          [props.type]: chipValue,
+        }));
       }}
     >
-      {props.children}
+      {props.type}
       {chip && (
         <div className={`chip ${chipColour}`}>
           <div className="chipSpan">{chipValue}</div>

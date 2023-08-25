@@ -46,7 +46,8 @@ export default function Wheel() {
 
   useEffect(() => {
     if (spin) {
-      const winningSpin = Math.floor(Math.random() * 36);
+      const winningSpin = 35;
+      // const winningSpin = Math.floor(Math.random() * 36);
       wheelnumbersAC.forEach((_, i) => {
         if (wheelnumbersAC[i] == winningSpin) {
           setRotationTo(i * 9.73 + 362);
