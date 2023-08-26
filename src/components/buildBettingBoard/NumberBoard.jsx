@@ -7,6 +7,7 @@ import { useCasino } from "../Context";
 
 export default function NumberBoard(props) {
   const { setBet, removeBet } = useCasino();
+  let ttbIndex = 0;
   return (
     <div className="number_board">
       {" "}
@@ -67,6 +68,9 @@ export default function NumberBoard(props) {
           1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36,
         ];
         let nbClass = arr[i] == "2 to 1" ? "tt1_block" : "number_block";
+        if (nbClass === "tt1_block") {
+          ttbIndex++;
+        }
         let colourClass = redBlocks.includes(arr[i])
           ? " redNum"
           : nbClass == "number_block"
@@ -76,33 +80,7 @@ export default function NumberBoard(props) {
           <NumberBlock
             key={i}
             className={`${nbClass + colourClass}`}
-            onClick={() => {
-              if (arr[a] != "2 to 1") {
-                setBet(this, "" + arr[a] + "", "inside_whole", 35);
-              } else {
-                let num =
-                  a == 12
-                    ? "3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36"
-                    : a == 25
-                    ? "2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35"
-                    : "1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34";
-                setBet(this, num, "outside_column", 2);
-              }
-            }}
-            onContextMenu={(e) => {
-              e.preventDefault();
-              if (arr[a] != "2 to 1") {
-                removeBet(this, "" + arr[a] + "", "inside_whole", 35);
-              } else {
-                let num =
-                  a == 12
-                    ? "3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36"
-                    : a == 25
-                    ? "2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35"
-                    : "1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34";
-                removeBet(this, num, "outside_column", 2);
-              }
-            }}
+            ttbIndex={ttbIndex}
           >
             <Nbn>{arr[i]}</Nbn>
           </NumberBlock>

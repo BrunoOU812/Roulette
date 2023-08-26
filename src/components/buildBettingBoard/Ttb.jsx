@@ -25,11 +25,10 @@ export default function NumberBlock(props) {
       className={props.className}
       onClick={() => {
         setBet({ chip: chip, setChip: setChip, setChipValue: setChipValue });
-        props.className === "tt1_block" &&
-          setTtbPlay((prevState) => ({
-            ...prevState,
-            [`COLUMN_${props.ttbIndex}`]: chipValue,
-          }));
+        setTtbPlay((prevState) => ({
+          ...prevState,
+          [`COLUMN_${props.ttbIndex}`]: chipValue,
+        }));
       }}
       onContextMenu={(e) => {
         removeBet({
@@ -37,11 +36,10 @@ export default function NumberBlock(props) {
           chipValue: chipValue,
           setChipValue: setChipValue,
         });
-        props.className === "tt1_block" &&
-          setTtbPlay((prevState) => ({
-            ...prevState,
-            [`COLUMN_${props.ttbIndex}`]: chipValue,
-          }));
+        setTtbPlay((prevState) => ({
+          ...prevState,
+          [`COLUMN_${props.ttbIndex}`]: chipValue,
+        }));
       }}
     >
       {props.children}

@@ -8,7 +8,7 @@ import ThendOne from "./ThendOne";
 import ThendTwo from "./ThendTwo";
 import Turret from "./Turret";
 import TurretHandle from "./TurretHandle";
-import { Helmet } from "react-helmet";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useCasino } from "../Context";
 import Ball from "./Ball";
 export default function Wheel() {
@@ -46,7 +46,7 @@ export default function Wheel() {
 
   useEffect(() => {
     if (spin) {
-      const winningSpin = 35;
+      const winningSpin = 34;
       // const winningSpin = Math.floor(Math.random() * 36);
       wheelnumbersAC.forEach((_, i) => {
         if (wheelnumbersAC[i] == winningSpin) {
@@ -77,16 +77,19 @@ export default function Wheel() {
 
   return (
     <div className="wheel" style={style ? { animation: `${wheelRotate}` } : {}}>
-      <Helmet>
-        <style>
-          {`
-            @keyframes ballStop {
-              from { transform: rotate(-${rotationFrom}deg); }
-              to { transform: rotate(-${rotationTo}deg); }
-            }
-          `}
-        </style>
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <style>
+            {`
+        @keyframes ballStop {
+          from { transform: rotate(-${rotationFrom}deg); }
+          to { transform: rotate(-${rotationTo}deg); }
+        }
+      `}
+          </style>
+        </Helmet>
+      </HelmetProvider>
+
       <OuterRim />
       {sectElements}
       <div

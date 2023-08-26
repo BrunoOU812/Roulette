@@ -37,9 +37,15 @@ export default function ContextProvider({ children }) {
   const [otoPlay, setOtoPlay] = useState({
     RED: 0,
     BLACK: 0,
-    ODD: 0,
     EVEN: 0,
+    ODD: 0,
   });
+  const [ttbPlay, setTtbPlay] = useState({
+    COLUMN_3: 0,
+    COLUMN_2: 0,
+    COLUMN_1: 0,
+  });
+
   const [winningNumber, setWinningNumber] = useState(0);
   const [clear, clearBet] = useState(false);
   const numRed = [
@@ -49,6 +55,12 @@ export default function ContextProvider({ children }) {
     0, 26, 3, 35, 12, 28, 7, 29, 18, 22, 9, 31, 14, 20, 1, 33, 16, 24, 5, 10,
     23, 8, 30, 11, 36, 13, 27, 6, 34, 17, 25, 2, 21, 4, 19, 15, 32,
   ];
+  const [each, setEach] = useState([]);
+  const [column, setColumn] = useState([]);
+  const [dozen, setDozen] = useState([]);
+  const [halfRow, setHalfRow] = useState([]);
+  const [row, setRow] = useState([]);
+
   const winArrays = {
     eachNumbers: Array(37)
       .fill()
@@ -133,10 +145,20 @@ export default function ContextProvider({ children }) {
   };
 
   useEffect(() => {
+    setEach(winArrays.eachNumbers);
+    setColumn(winArrays.columnNumbers().reverse());
+    setDozen(winArrays.dozenNumbers);
+    setHalfRow(winArrays.halfNumbers());
+    setRow(winArrays.rowNumbers());
+    console.log(column);
+  }, [spin]);
+
+  useEffect(() => {
     if (clear) {
       clearBet(false);
     }
   }, [clear]);
+
   useEffect(() => {
     if (currentBet > 0) {
       setSpinBtn(true);
@@ -145,27 +167,33 @@ export default function ContextProvider({ children }) {
 
   useEffect(() => {
     const plays = [];
-    numRed.includes(previousNumbers[previousNumbers.length - 1])
-      ? plays.push("RED")
-      : plays.push("BLACK");
-    previousNumbers[previousNumbers.length - 1] % 2 === 0
-      ? plays.push("EVEN")
-      : plays.push("ODD");
+    const lastWinningNumber = previousNumbers[previousNumbers.length - 1];
+    if (previousNumbers.length > 0) {
+      numRed.includes(lastWinningNumber)
+        ? plays.push("RED")
+        : plays.push("BLACK");
+      lastWinningNumber % 2 === 0 ? plays.push("EVEN") : plays.push("ODD");
+      column[0].includes(lastWinningNumber) && plays.push("COLUMN_1");
+      column[1].includes(lastWinningNumber) && plays.push("COLUMN_2");
+      column[2].includes(lastWinningNumber) && plays.push("COLUMN_3");
+      console.log(plays, ttbPlay);
+    }
     Object.keys(otoPlay).forEach(
       (value) =>
         plays.includes(value) &&
         otoPlay[value] > 0 &&
         setBankValue((prevState) => prevState + otoPlay[value] * 2)
     );
+    Object.keys(ttbPlay).forEach(
+      (value) =>
+        plays.includes(value) &&
+        ttbPlay[value] > 0 &&
+        setBankValue((prevState) => prevState + ttbPlay[value] * 2)
+    );
     setCurrentBet(0);
-
-    const updatedOtoPlay = Object.keys(otoPlay).reduce((accumulator, key) => {
-      accumulator[key] = 0;
-      return accumulator;
-    }, {});
-
-    setOtoPlay(updatedOtoPlay);
-    console.log("win!");
+    Object.keys(otoPlay).forEach((key) =>
+      setOtoPlay((prevState) => ({ ...prevState, [key]: 0 }))
+    );
   }, [previousNumbers]);
 
   const setBet = ({ chip, setChip, setChipValue }) => {
@@ -238,6 +266,8 @@ export default function ContextProvider({ children }) {
     setOtoPlay,
     winningNumber,
     setWinningNumber,
+    ttbPlay,
+    setTtbPlay,
   };
   return (
     <CasinoContext.Provider value={casinoContextvalues}>
