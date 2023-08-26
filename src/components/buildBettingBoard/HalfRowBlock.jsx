@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useCasino } from "../Context";
 
-export default function Bo3Block(props) {
+export default function HalfRowBlock(props) {
   const [chip, setChip] = useState(false);
   const [chipValue, setChipValue] = useState(0);
   const [chipColour, setChipColour] = useState("red");
-  const { clear, setBet, removeBet, setBo3Play } = useCasino();
+  const { clear, setBet, removeBet, setTtbbetPlay } = useCasino();
   useEffect(() => {
     chipValue >= 100
       ? setChipColour("gold")
@@ -22,12 +22,12 @@ export default function Bo3Block(props) {
   }, [chipValue, clear]);
   return (
     <div
-      className="bo3_block"
+      className={`ttbbetblock`}
       onClick={() => {
         setBet({ chip: chip, setChip: setChip, setChipValue: setChipValue });
-        setBo3Play((prevState) => ({
+        setTtbbetPlay((prevState) => ({
           ...prevState,
-          [`DOZEN_${props.index}`]: chipValue,
+          [`HALFROW_${props.index}`]: chipValue,
         }));
       }}
       onContextMenu={(e) => {
@@ -36,13 +36,12 @@ export default function Bo3Block(props) {
           chipValue: chipValue,
           setChipValue: setChipValue,
         });
-        setBo3Play((prevState) => ({
+        setTtbbetPlay((prevState) => ({
           ...prevState,
-          [`DOZEN_${props.index}`]: chipValue,
+          [`HALFROW_${props.index}`]: chipValue,
         }));
       }}
     >
-      {props.children}
       {chip && (
         <div className={`chip ${chipColour}`}>
           <div className="chipSpan">{chipValue}</div>

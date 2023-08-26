@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useCasino } from "../Context";
 
-export default function Ttbbetblock() {
+export default function Ttbbetblock(props) {
   const [chip, setChip] = useState(false);
   const [chipValue, setChipValue] = useState(0);
   const [chipColour, setChipColour] = useState("red");
-  const { clear, setBet, removeBet } = useCasino();
+  const { clear, setBet, removeBet, sethalfH1Play, sethalfH2Play } =
+    useCasino();
   useEffect(() => {
     chipValue >= 100
       ? setChipColour("gold")
@@ -25,6 +26,17 @@ export default function Ttbbetblock() {
       className={`ttbbetblock`}
       onClick={() => {
         setBet({ chip: chip, setChip: setChip, setChipValue: setChipValue });
+        // {
+        //   props.index % 2 === 0
+        //     ? sethalfH1Play((prevState) => ({
+        //         ...prevState,
+        //         [`HALFH1_${props.index}`]: chipValue,
+        //       }))
+        //     : sethalfH2Play((prevState) => ({
+        //         ...prevState,
+        //         [`HALFH2_${props.index}`]: chipValue,
+        //       }));
+        // }
       }}
       onContextMenu={(e) => {
         removeBet({
@@ -32,6 +44,17 @@ export default function Ttbbetblock() {
           chipValue: chipValue,
           setChipValue: setChipValue,
         });
+        // {
+        //   props.index % 2 === 0
+        //     ? sethalfH1Play((prevState) => ({
+        //         ...prevState,
+        //         [`HALFH_${props.index}`]: chipValue,
+        //       }))
+        //     : sethalfH2Play((prevState) => ({
+        //         ...prevState,
+        //         [`HALFH_${props.index}`]: chipValue,
+        //       }));
+        // }
       }}
     >
       {chip && (

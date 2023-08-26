@@ -5,6 +5,8 @@ import Rtlbb from "./Rtlbb";
 import Wlcb from "./Wlcb";
 import Cbbb from "./Cbbb";
 import Ttbbetblock from "./Ttbbetblock";
+import HalfRowBlock from "./HalfRowBlock";
+import RowBlock from "./RowBlock";
 
 export default function Wl() {
   return (
@@ -13,32 +15,7 @@ export default function Wl() {
         {Array(11)
           .fill()
           .map((_, i) => {
-            let j = i;
-            const numA = 1 + 3 * j;
-            const numB = 2 + 3 * j;
-            const numC = 3 + 3 * j;
-            const numD = 4 + 3 * j;
-            const numE = 5 + 3 * j;
-            const numF = 6 + 3 * j;
-            const num =
-              numA +
-              ", " +
-              numB +
-              ", " +
-              numC +
-              ", " +
-              numD +
-              ", " +
-              numE +
-              ", " +
-              numF;
-            const objType = "double_street";
-            return (
-              <Ttbbetblock
-                key={i}
-                props={{ target: this, num: num, type: objType, odd: 5 }}
-              />
-            );
+            return <HalfRowBlock key={i} index={i} />;
           })}
       </Wlttb>
       {Array(3)
@@ -50,8 +27,11 @@ export default function Wl() {
               {Array(12)
                 .fill()
                 .map((_, i) => {
-                  const j = i;
-                  return <Ttbbetblock key={i} />;
+                  return c === 2 ? (
+                    <RowBlock key={i} index={i} />
+                  ) : (
+                    <Ttbbetblock key={i} index={i} wlttbIndex={c} />
+                  );
                 })}
             </Wlttb>
           );

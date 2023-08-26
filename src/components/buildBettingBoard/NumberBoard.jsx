@@ -7,7 +7,7 @@ import { useCasino } from "../Context";
 
 export default function NumberBoard(props) {
   const { setBet, removeBet } = useCasino();
-  let ttbIndex = 0;
+  let ttbIndex = -1;
   return (
     <div className="number_board">
       {" "}
