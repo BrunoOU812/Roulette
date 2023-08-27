@@ -53,7 +53,7 @@ export default function Wl() {
                   let numA = 3 + 3 * (d - 1) - (j - 1);
                   let numB = 6 + 3 * (d - 1) - (j - 1);
                   let num = numA + ", " + numB;
-                  return <Rtlbb key={i} index={i} />;
+                  return <Rtlbb key={i} index={i} compIndex={c} />;
                 })}
             </Wlrtl>
           );

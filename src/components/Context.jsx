@@ -41,8 +41,9 @@ export default function ContextProvider({ children }) {
   const [ttbbetPlay, setTtbbetPlay] = useState({});
   const [halfH1Play, sethalfH1Play] = useState({});
   const [halfH2Play, sethalfH2Play] = useState({});
-  // const [halfV1Play, sethalfV1Play] = useState({});
-  // const [halfV2Play, sethalfV2Play] = useState({});
+  const [halfV1Play, sethalfV1Play] = useState({});
+  const [halfV2Play, sethalfV2Play] = useState({});
+  const [halfV3Play, sethalfV3Play] = useState({});
 
   const [winningNumber, setWinningNumber] = useState(0);
   const [clear, clearBet] = useState(false);
@@ -60,8 +61,9 @@ export default function ContextProvider({ children }) {
   const [row, setRow] = useState([]);
   const [halfH1, setHalfH1] = useState([]);
   const [halfH2, setHalfH2] = useState([]);
-  // const [halfV1, setHalfV1] = useState([]);
-  // const [halfV2, setHalfV2] = useState([]);
+  const [halfV1, setHalfV1] = useState([]);
+  const [halfV2, setHalfV2] = useState([]);
+  const [halfV3, setHalfV3] = useState([]);
 
   const winArrays = {
     eachNumbers: Array(37)
@@ -153,16 +155,21 @@ export default function ContextProvider({ children }) {
         return i % 2 === 0 ? false : item;
       });
     },
-    // halfNumbersV1: () => {
-    //   return winArrays.halfNumbersVertical().filter((item, i) => {
-    //     return i % 2 === 0 ? item : i === 0 ? item : false;
-    //   });
-    // },
-    // halfNumbersV1: () => {
-    //   return winArrays.halfNumbersVertical().filter((item, i) => {
-    //     return i % 2 === 0 ? false : item;
-    //   });
-    // },
+    halfNumbersV3: () => {
+      return winArrays.halfNumbersVertical().filter((item, i) => {
+        return i < 11 ? item : false;
+      });
+    },
+    halfNumbersV2: () => {
+      return winArrays.halfNumbersVertical().filter((item, i) => {
+        return i >= 11 && i < 22 ? item : false;
+      });
+    },
+    halfNumbersV1: () => {
+      return winArrays.halfNumbersVertical().filter((item, i) => {
+        return i >= 22 ? item : false;
+      });
+    },
   };
 
   useEffect(() => {
@@ -172,9 +179,15 @@ export default function ContextProvider({ children }) {
     setHalfRow(winArrays.halfRowNumbers());
     setHalfH1(winArrays.halfNumbersH1());
     setHalfH2(winArrays.halfNumbersH2());
-    // setHalfV1(winArrays.halfNumbersV1());
-    // setHalfV2(winArrays.halfNumbersV2());
+    setHalfV1(winArrays.halfNumbersV1());
+    setHalfV2(winArrays.halfNumbersV2());
+    setHalfV3(winArrays.halfNumbersV3());
     setRow(winArrays.rowNumbers());
+    console.log(
+      winArrays.halfNumbersV1(),
+      winArrays.halfNumbersV2(),
+      winArrays.halfNumbersV3()
+    );
   }, [spin]);
 
   useEffect(() => {
@@ -214,6 +227,15 @@ export default function ContextProvider({ children }) {
       }
       for (let i = 0; i <= 11; i++) {
         halfH2[i].includes(lastWinningNumber) && plays.push(`HALFH2_${i}`);
+      }
+      for (let i = 0; i <= 10; i++) {
+        halfV1[i].includes(lastWinningNumber) && plays.push(`HALFV1_${i}`);
+      }
+      for (let i = 0; i <= 10; i++) {
+        halfV2[i].includes(lastWinningNumber) && plays.push(`HALFV2_${i}`);
+      }
+      for (let i = 0; i <= 10; i++) {
+        halfV3[i].includes(lastWinningNumber) && plays.push(`HALFV3_${i}`);
       }
       console.log(
         halfH2,
@@ -263,6 +285,24 @@ export default function ContextProvider({ children }) {
         plays.includes(value) &&
         halfH2Play[value] > 0 &&
         setBankValue((prevState) => prevState + halfH2Play[value] * 2)
+    );
+    Object.keys(halfV1Play).forEach(
+      (value) =>
+        plays.includes(value) &&
+        halfV1Play[value] > 0 &&
+        setBankValue((prevState) => prevState + halfV1Play[value] * 2)
+    );
+    Object.keys(halfV2Play).forEach(
+      (value) =>
+        plays.includes(value) &&
+        halfV2Play[value] > 0 &&
+        setBankValue((prevState) => prevState + halfV2Play[value] * 2)
+    );
+    Object.keys(halfV3Play).forEach(
+      (value) =>
+        plays.includes(value) &&
+        halfV3Play[value] > 0 &&
+        setBankValue((prevState) => prevState + halfV3Play[value] * 2)
     );
     setCurrentBet(0);
     Object.keys(otoPlay).forEach((key) =>
@@ -347,8 +387,9 @@ export default function ContextProvider({ children }) {
     setRowPlay,
     sethalfH1Play,
     sethalfH2Play,
-    // sethalfV1Play,
-    // sethalfV2Play,
+    sethalfV1Play,
+    sethalfV2Play,
+    sethalfV3Play,
   };
   return (
     <CasinoContext.Provider value={casinoContextvalues}>
