@@ -7,6 +7,8 @@ import Cbbb from "./Cbbb";
 import Ttbbetblock from "./Ttbbetblock";
 import HalfRowBlock from "./HalfRowBlock";
 import RowBlock from "./RowBlock";
+import HalfH1 from "./HalfH1";
+import HalfH2 from "./HalfH2";
 
 export default function Wl() {
   return (
@@ -29,8 +31,10 @@ export default function Wl() {
                 .map((_, i) => {
                   return c === 2 ? (
                     <RowBlock key={i} index={i} />
+                  ) : c === 1 ? (
+                    <HalfH1 key={i} index={i} wlttbIndex={c} />
                   ) : (
-                    <Ttbbetblock key={i} index={i} wlttbIndex={c} />
+                    <HalfH2 key={i} index={i} wlttbIndex={c} />
                   );
                 })}
             </Wlttb>

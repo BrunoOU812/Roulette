@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useCasino } from "../Context";
 
-export default function Ttbbetblock(props) {
+export default function HalfH2(props) {
   const [chip, setChip] = useState(false);
   const [chipValue, setChipValue] = useState(0);
   const [chipColour, setChipColour] = useState("red");
-  const { clear, setBet, removeBet, sethalfH1Play, sethalfH2Play } =
-    useCasino();
+  const { clear, setBet, removeBet, sethalfH2Play } = useCasino();
   useEffect(() => {
     chipValue >= 100
       ? setChipColour("gold")
@@ -26,9 +25,9 @@ export default function Ttbbetblock(props) {
       className={`ttbbetblock`}
       onClick={() => {
         setBet({ chip: chip, setChip: setChip, setChipValue: setChipValue });
-        sethalfH1Play((prevState) => ({
+        sethalfH2Play((prevState) => ({
           ...prevState,
-          [`HALFH1_${props.index}`]: chipValue,
+          [`HALFH2_${props.index}`]: chipValue,
         }));
       }}
       onContextMenu={(e) => {
@@ -37,13 +36,12 @@ export default function Ttbbetblock(props) {
           chipValue: chipValue,
           setChipValue: setChipValue,
         });
-        sethalfH1Play((prevState) => ({
+        sethalfH2Play((prevState) => ({
           ...prevState,
-          [`HALFH_${props.index}`]: chipValue,
+          [`HALFH2_${props.index}`]: chipValue,
         }));
       }}
     >
-      {props.index < 12 ? "par" : ""}
       {chip && (
         <div className={`chip ${chipColour}`}>
           <div className="chipSpan">{chipValue}</div>

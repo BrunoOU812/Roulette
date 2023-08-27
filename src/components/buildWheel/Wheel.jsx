@@ -46,7 +46,7 @@ export default function Wheel() {
 
   useEffect(() => {
     if (spin) {
-      const winningSpin = 22;
+      const winningSpin = 24;
       // const winningSpin = Math.floor(Math.random() * 36);
       wheelnumbersAC.forEach((_, i) => {
         if (wheelnumbersAC[i] == winningSpin) {

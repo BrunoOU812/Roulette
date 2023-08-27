@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useCasino } from "../Context";
 
-export default function Ttbbetblock(props) {
+export default function HalfH1(props) {
   const [chip, setChip] = useState(false);
   const [chipValue, setChipValue] = useState(0);
   const [chipColour, setChipColour] = useState("red");
@@ -43,7 +43,6 @@ export default function Ttbbetblock(props) {
         }));
       }}
     >
-      {props.index < 12 ? "par" : ""}
       {chip && (
         <div className={`chip ${chipColour}`}>
           <div className="chipSpan">{chipValue}</div>
