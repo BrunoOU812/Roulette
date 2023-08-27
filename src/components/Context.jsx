@@ -215,7 +215,12 @@ export default function ContextProvider({ children }) {
       for (let i = 0; i <= 11; i++) {
         halfH2[i].includes(lastWinningNumber) && plays.push(`HALFH2_${i}`);
       }
-      console.log(halfH2, halfH2Play, plays);
+      console.log(
+        halfH2,
+        halfH2Play,
+        plays,
+        halfH2[7].includes(lastWinningNumber)
+      );
     }
     Object.keys(otoPlay).forEach(
       (value) =>
@@ -252,6 +257,12 @@ export default function ContextProvider({ children }) {
         plays.includes(value) &&
         halfH1Play[value] > 0 &&
         setBankValue((prevState) => prevState + halfH1Play[value] * 2)
+    );
+    Object.keys(halfH2Play).forEach(
+      (value) =>
+        plays.includes(value) &&
+        halfH2Play[value] > 0 &&
+        setBankValue((prevState) => prevState + halfH2Play[value] * 2)
     );
     setCurrentBet(0);
     Object.keys(otoPlay).forEach((key) =>
