@@ -5,7 +5,7 @@ export default function Zero(props) {
   const [chip, setChip] = useState(false);
   const [chipValue, setChipValue] = useState(0);
   const [chipColour, setChipColour] = useState("red");
-  const { clear, setBet, removeBet } = useCasino();
+  const { clear, setBet, removeBet, setZeroPlay } = useCasino();
   useEffect(() => {
     chipValue >= 100
       ? setChipColour("gold")
@@ -25,6 +25,10 @@ export default function Zero(props) {
       className="number_0"
       onClick={() => {
         setBet({ chip: chip, setChip: setChip, setChipValue: setChipValue });
+        setZeroPlay((prevState) => ({
+          ...prevState,
+          [`ZERO_0`]: chipValue,
+        }));
       }}
       onContextMenu={(e) => {
         removeBet({
@@ -32,6 +36,10 @@ export default function Zero(props) {
           chipValue: chipValue,
           setChipValue: setChipValue,
         });
+        setZeroPlay((prevState) => ({
+          ...prevState,
+          [`ZERO_0`]: chipValue,
+        }));
       }}
     >
       {props.children}

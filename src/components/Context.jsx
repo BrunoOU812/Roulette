@@ -15,6 +15,16 @@ export const useCasino = () => {
 // par o impar tanto como color se paga 1 vez
 
 export default function ContextProvider({ children }) {
+  const rules = {
+    each: 36,
+    half: 17,
+    row: 11,
+    quarter: 8,
+    halfRow: 5,
+    dozen: 2,
+    column: 2,
+    color: 2,
+  };
   const [bankValue, setBankValue] = useState(1000);
   const [currentBet, setCurrentBet] = useState(0);
   const [wager, setWager] = useState(5);
@@ -34,12 +44,15 @@ export default function ContextProvider({ children }) {
     false,
     false,
   ]);
+  const [zeroPlay, setZeroPlay] = useState({});
   const [eachPlay, setEachPlay] = useState({});
   const [otoPlay, setOtoPlay] = useState({});
   const [ttbPlay, setTtbPlay] = useState({});
   const [bo3Play, setBo3Play] = useState({});
   const [rowPlay, setRowPlay] = useState({});
   const [ttbbetPlay, setTtbbetPlay] = useState({});
+  const [quarter1Play, setQuarter1Play] = useState({});
+  const [quarter2Play, setQuarter2Play] = useState({});
   const [halfH1Play, sethalfH1Play] = useState({});
   const [halfH2Play, sethalfH2Play] = useState({});
   const [halfV1Play, sethalfV1Play] = useState({});
@@ -55,11 +68,14 @@ export default function ContextProvider({ children }) {
     0, 26, 3, 35, 12, 28, 7, 29, 18, 22, 9, 31, 14, 20, 1, 33, 16, 24, 5, 10,
     23, 8, 30, 11, 36, 13, 27, 6, 34, 17, 25, 2, 21, 4, 19, 15, 32,
   ];
+  const [zero, setZero] = useState([]);
   const [each, setEach] = useState([]);
   const [column, setColumn] = useState([]);
   const [dozen, setDozen] = useState([]);
   const [halfRow, setHalfRow] = useState([]);
   const [row, setRow] = useState([]);
+  const [quarter1, setQuarter1] = useState([]);
+  const [quarter2, setQuarter2] = useState([]);
   const [halfH1, setHalfH1] = useState([]);
   const [halfH2, setHalfH2] = useState([]);
   const [halfV1, setHalfV1] = useState([]);
@@ -146,6 +162,16 @@ export default function ContextProvider({ children }) {
       });
       return quarterNumbers;
     },
+    quarterNumbers2: () => {
+      return winArrays.quarterNumbers().filter((item, i) => {
+        return i % 2 === 0 ? item : false;
+      });
+    },
+    quarterNumbers1: () => {
+      return winArrays.quarterNumbers().filter((item, i) => {
+        return i % 2 === 0 ? false : item;
+      });
+    },
     halfNumbersH1: () => {
       return winArrays.halfNumbersHorizontal().filter((item, i) => {
         return i % 2 === 0 ? item : i === 0 ? item : false;
@@ -178,6 +204,8 @@ export default function ContextProvider({ children }) {
     setColumn(winArrays.columnNumbers().reverse());
     setDozen(winArrays.dozenNumbers);
     setHalfRow(winArrays.halfRowNumbers());
+    setQuarter1(winArrays.quarterNumbers1());
+    setQuarter2(winArrays.quarterNumbers2());
     setHalfH1(winArrays.halfNumbersH1());
     setHalfH2(winArrays.halfNumbersH2());
     setHalfV1(winArrays.halfNumbersV1());
@@ -207,11 +235,12 @@ export default function ContextProvider({ children }) {
         : plays.push("BLACK");
       lastWinningNumber % 2 === 0 ? plays.push("EVEN") : plays.push("ODD");
       const playGroups = [
-        // { array: each, prefix: "EACH", index: 36 },
         { array: column, prefix: "COLUMN", index: 2 },
         { array: dozen, prefix: "DOZEN", index: 2 },
         { array: halfRow, prefix: "HALFROW", index: 10 },
         { array: row, prefix: "ROW", index: 11 },
+        { array: quarter1, prefix: "QUARTER1", index: 10 },
+        { array: quarter2, prefix: "QUARTER2", index: 10 },
         { array: halfH1, prefix: "HALFH1", index: 11 },
         { array: halfH2, prefix: "HALFH2", index: 11 },
         { array: halfV1, prefix: "HALFV1", index: 10 },
@@ -227,34 +256,39 @@ export default function ContextProvider({ children }) {
       for (let i = 0; i <= each.length - 1; i++) {
         i === lastWinningNumber && plays.push(`EACH_${i}`);
       }
+      0 === lastWinningNumber && plays.push(`ZERO_0`);
     }
-    const verifyPlay = {
-      eachPlay,
-      otoPlay,
-      ttbPlay,
-      bo3Play,
-      ttbbetPlay,
-      rowPlay,
-      halfH1Play,
-      halfH2Play,
-      halfV1Play,
-      halfV2Play,
-      halfV3Play,
-    };
-
-    Object.keys(verifyPlay).forEach((variableName) => {
-      const variable = verifyPlay[variableName];
-      Object.keys(variable).forEach((value) => {
-        if (plays.includes(value) && variable[value] > 0) {
-          setBankValue((prevState) => prevState + variable[value] * 2);
+    console.log(plays, quarter1Play);
+    const verifyPlay = [
+      { vrbl: zeroPlay, fnct: setZeroPlay },
+      { vrbl: eachPlay, fnct: setEachPlay },
+      { vrbl: otoPlay, fnct: setOtoPlay },
+      { vrbl: ttbPlay, fnct: setTtbPlay },
+      { vrbl: bo3Play, fnct: setBo3Play },
+      { vrbl: ttbbetPlay, fnct: setTtbbetPlay },
+      { vrbl: rowPlay, fnct: setRowPlay },
+      { vrbl: quarter1Play, fnct: setQuarter1Play },
+      { vrbl: quarter2Play, fnct: setQuarter2Play },
+      { vrbl: halfH1Play, fnct: sethalfH1Play },
+      { vrbl: halfH2Play, fnct: sethalfH2Play },
+      { vrbl: halfV1Play, fnct: sethalfV1Play },
+      { vrbl: halfV2Play, fnct: sethalfV2Play },
+      { vrbl: halfV3Play, fnct: sethalfV3Play },
+    ];
+    verifyPlay.forEach(({ vrbl, fnct }) => {
+      Object.keys(vrbl).forEach((value) => {
+        if (plays.includes(value) && vrbl[value] > 0) {
+          setBankValue((prevState) => prevState + vrbl[value] * 2);
         }
       });
     });
 
+    verifyPlay.forEach(({ vrbl, fnct }) => {
+      Object.keys(vrbl).forEach((key) =>
+        fnct((prevState) => ({ ...prevState, [key]: 0 }))
+      );
+    });
     setCurrentBet(0);
-    Object.keys(otoPlay).forEach((key) =>
-      setOtoPlay((prevState) => ({ ...prevState, [key]: 0 }))
-    );
   }, [previousNumbers]);
 
   const setBet = ({ chip, setChip, setChipValue }) => {
@@ -338,6 +372,9 @@ export default function ContextProvider({ children }) {
     sethalfV2Play,
     sethalfV3Play,
     setEachPlay,
+    setZeroPlay,
+    setQuarter1Play,
+    setQuarter2Play,
   };
   return (
     <CasinoContext.Provider value={casinoContextvalues}>

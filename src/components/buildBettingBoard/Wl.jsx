@@ -91,7 +91,7 @@ export default function Wl() {
                         ", " +
                         (parseInt(numD) - 1 + (count - 12) * 3);
                   let objType = "corner_bet";
-                  return <Cbbb key={i} index={i} />;
+                  return <Cbbb key={i} index={i} wlcbIndex={c} />;
                 })}
             </Wlcb>
           );

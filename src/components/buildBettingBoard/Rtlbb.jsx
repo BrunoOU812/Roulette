@@ -41,7 +41,6 @@ export default function Rtlbb(props) {
           ...prevState,
           [`HALFV${props.index + 1}_${props.compIndex}`]: chipValue,
         }));
-        console.log(props.index + 1);
       }}
       onContextMenu={(e) => {
         removeBet({

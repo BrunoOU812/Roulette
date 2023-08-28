@@ -12,8 +12,14 @@ import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useCasino } from "../Context";
 import Ball from "./Ball";
 export default function Wheel() {
-  const { spin, setSpin, setSpinBtn, clearBet, setPreviousNumbers } =
-    useCasino();
+  const {
+    spin,
+    setSpin,
+    setSpinBtn,
+    clearBet,
+    setPreviousNumbers,
+    setWinningNumber,
+  } = useCasino();
   const [ballAnimation, setBallAnimation] = useState(
     "ballRotate 1s linear infinite"
   );
@@ -46,7 +52,7 @@ export default function Wheel() {
 
   useEffect(() => {
     if (spin) {
-      const winningSpin = 24;
+      const winningSpin = 22;
       // const winningSpin = Math.floor(Math.random() * 36);
       wheelnumbersAC.forEach((_, i) => {
         if (wheelnumbersAC[i] == winningSpin) {
