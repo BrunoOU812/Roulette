@@ -11,15 +11,7 @@ export default function NumberBoard(props) {
   return (
     <div className="number_board">
       {" "}
-      <Zero
-        onClick={() => {
-          setBet(this, "0", "zero", 35);
-        }}
-        onContextMenu={(e) => {
-          e.preventDefault();
-          removeBet(this, "0", "zero", 35);
-        }}
-      >
+      <Zero>
         <Nbnz>{0}</Nbnz>
       </Zero>
       {[

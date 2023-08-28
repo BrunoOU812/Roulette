@@ -58,6 +58,8 @@ export default function ContextProvider({ children }) {
   const [halfV1Play, sethalfV1Play] = useState({});
   const [halfV2Play, sethalfV2Play] = useState({});
   const [halfV3Play, sethalfV3Play] = useState({});
+  const [halfBoard1Play, setHalfBoard1Play] = useState({});
+  const [halfBoard2Play, setHalfBoard2Play] = useState({});
 
   const [winningNumber, setWinningNumber] = useState(0);
   const [clear, clearBet] = useState(false);
@@ -68,7 +70,6 @@ export default function ContextProvider({ children }) {
     0, 26, 3, 35, 12, 28, 7, 29, 18, 22, 9, 31, 14, 20, 1, 33, 16, 24, 5, 10,
     23, 8, 30, 11, 36, 13, 27, 6, 34, 17, 25, 2, 21, 4, 19, 15, 32,
   ];
-  const [zero, setZero] = useState([]);
   const [each, setEach] = useState([]);
   const [column, setColumn] = useState([]);
   const [dozen, setDozen] = useState([]);
@@ -81,6 +82,8 @@ export default function ContextProvider({ children }) {
   const [halfV1, setHalfV1] = useState([]);
   const [halfV2, setHalfV2] = useState([]);
   const [halfV3, setHalfV3] = useState([]);
+  const [halfBoard1, setHalfBoard1] = useState([]);
+  const [halfBoard2, setHalfBoard2] = useState([]);
 
   const winArrays = {
     eachNumbers: Array(36)
@@ -197,6 +200,16 @@ export default function ContextProvider({ children }) {
         return i >= 22 ? item : false;
       });
     },
+    HalfBoard1: () => {
+      return winArrays.eachNumbers.filter((item, i) => {
+        return i < 18 ? item : false;
+      });
+    },
+    HalfBoard2: () => {
+      return winArrays.eachNumbers.filter((item, i) => {
+        return i < 18 ? false : item;
+      });
+    },
   };
 
   useEffect(() => {
@@ -212,6 +225,8 @@ export default function ContextProvider({ children }) {
     setHalfV2(winArrays.halfNumbersV2());
     setHalfV3(winArrays.halfNumbersV3());
     setRow(winArrays.rowNumbers());
+    setHalfBoard1(winArrays.HalfBoard1());
+    setHalfBoard2(winArrays.HalfBoard2());
   }, [spin]);
 
   useEffect(() => {
@@ -246,6 +261,8 @@ export default function ContextProvider({ children }) {
         { array: halfV1, prefix: "HALFV1", index: 10 },
         { array: halfV2, prefix: "HALFV2", index: 10 },
         { array: halfV3, prefix: "HALFV3", index: 10 },
+        // { array: halfBoard1, prefix: "HALFBoard1", index: 1 },
+        // { array: halfBoard2, prefix: "HALFBoard2", index: 1 },
       ];
       for (let play of playGroups) {
         for (let i = 0; i <= play.index; i++) {
@@ -256,9 +273,25 @@ export default function ContextProvider({ children }) {
       for (let i = 0; i <= each.length - 1; i++) {
         i === lastWinningNumber && plays.push(`EACH_${i}`);
       }
+      for (let i = 0; i <= halfBoard1.length - 1; i++) {
+        halfBoard1.includes(lastWinningNumber) && plays.push(`HALFBOARD1_${i}`);
+      }
+      for (let i = 0; i <= halfBoard2.length - 1; i++) {
+        halfBoard2.includes(lastWinningNumber) && plays.push(`HALFBOARD2_${i}`);
+      }
       0 === lastWinningNumber && plays.push(`ZERO_0`);
     }
-    console.log(plays, quarter1Play);
+    console.log(
+      plays,
+      "quarter1",
+      halfBoard1,
+      "quarter2",
+      halfBoard2,
+      "quarter1Play",
+      halfBoard1Play,
+      "quarter2Play",
+      halfBoard2Play
+    );
     const verifyPlay = [
       { vrbl: zeroPlay, fnct: setZeroPlay },
       { vrbl: eachPlay, fnct: setEachPlay },
@@ -274,6 +307,8 @@ export default function ContextProvider({ children }) {
       { vrbl: halfV1Play, fnct: sethalfV1Play },
       { vrbl: halfV2Play, fnct: sethalfV2Play },
       { vrbl: halfV3Play, fnct: sethalfV3Play },
+      { vrbl: halfBoard1Play, fnct: setHalfBoard1Play },
+      { vrbl: halfBoard2Play, fnct: setHalfBoard2Play },
     ];
     verifyPlay.forEach(({ vrbl, fnct }) => {
       Object.keys(vrbl).forEach((value) => {
@@ -375,6 +410,8 @@ export default function ContextProvider({ children }) {
     setZeroPlay,
     setQuarter1Play,
     setQuarter2Play,
+    setHalfBoard1Play,
+    setHalfBoard2Play,
   };
   return (
     <CasinoContext.Provider value={casinoContextvalues}>

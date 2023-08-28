@@ -43,6 +43,15 @@ export default function Cbbb(props) {
           chipValue: chipValue,
           setChipValue: setChipValue,
         });
+        props.wlcbIndex === 0
+          ? setQuarter1Play((prevState) => ({
+              ...prevState,
+              [`QUARTER1_${props.index}`]: chipValue,
+            }))
+          : setQuarter2Play((prevState) => ({
+              ...prevState,
+              [`QUARTER2_${props.index}`]: chipValue,
+            }));
       }}
     >
       {chip && (
