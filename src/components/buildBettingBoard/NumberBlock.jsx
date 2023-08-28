@@ -5,7 +5,7 @@ export default function NumberBlock(props) {
   const [chip, setChip] = useState(false);
   const [chipValue, setChipValue] = useState(0);
   const [chipColour, setChipColour] = useState("red");
-  const { clear, setBet, removeBet, setTtbPlay } = useCasino();
+  const { clear, setBet, removeBet, setTtbPlay, setEachPlay } = useCasino();
   useEffect(() => {
     chipValue >= 100
       ? setChipColour("gold")
@@ -25,11 +25,15 @@ export default function NumberBlock(props) {
       className={props.className}
       onClick={() => {
         setBet({ chip: chip, setChip: setChip, setChipValue: setChipValue });
-        props.className === "tt1_block" &&
-          setTtbPlay((prevState) => ({
-            ...prevState,
-            [`COLUMN_${props.ttbIndex}`]: chipValue,
-          }));
+        props.className === "tt1_block"
+          ? setTtbPlay((prevState) => ({
+              ...prevState,
+              [`COLUMN_${props.ttbIndex}`]: chipValue,
+            }))
+          : setEachPlay((prevState) => ({
+              ...prevState,
+              [`EACH_${props.num}`]: chipValue,
+            }));
       }}
       onContextMenu={(e) => {
         removeBet({
@@ -37,11 +41,15 @@ export default function NumberBlock(props) {
           chipValue: chipValue,
           setChipValue: setChipValue,
         });
-        props.className === "tt1_block" &&
-          setTtbPlay((prevState) => ({
-            ...prevState,
-            [`COLUMN_${props.ttbIndex}`]: chipValue,
-          }));
+        props.className === "tt1_block"
+          ? setTtbPlay((prevState) => ({
+              ...prevState,
+              [`COLUMN_${props.ttbIndex}`]: chipValue,
+            }))
+          : setEachPlay((prevState) => ({
+              ...prevState,
+              [`EACH_${props.num}`]: chipValue,
+            }));
       }}
     >
       {props.children}

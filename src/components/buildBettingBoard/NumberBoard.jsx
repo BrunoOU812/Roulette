@@ -62,16 +62,16 @@ export default function NumberBoard(props) {
         31,
         34,
         "2 to 1",
-      ].map((_, i, arr) => {
+      ].map((num, i) => {
         let a = i;
         let redBlocks = [
           1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36,
         ];
-        let nbClass = arr[i] == "2 to 1" ? "tt1_block" : "number_block";
+        let nbClass = num == "2 to 1" ? "tt1_block" : "number_block";
         if (nbClass === "tt1_block") {
           ttbIndex++;
         }
-        let colourClass = redBlocks.includes(arr[i])
+        let colourClass = redBlocks.includes(num)
           ? " redNum"
           : nbClass == "number_block"
           ? " blackNum"
@@ -81,8 +81,9 @@ export default function NumberBoard(props) {
             key={i}
             className={`${nbClass + colourClass}`}
             ttbIndex={ttbIndex}
+            num={num}
           >
-            <Nbn>{arr[i]}</Nbn>
+            <Nbn>{num}</Nbn>
           </NumberBlock>
         );
       })}

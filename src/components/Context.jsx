@@ -34,6 +34,7 @@ export default function ContextProvider({ children }) {
     false,
     false,
   ]);
+  const [eachPlay, setEachPlay] = useState({});
   const [otoPlay, setOtoPlay] = useState({});
   const [ttbPlay, setTtbPlay] = useState({});
   const [bo3Play, setBo3Play] = useState({});
@@ -66,9 +67,9 @@ export default function ContextProvider({ children }) {
   const [halfV3, setHalfV3] = useState([]);
 
   const winArrays = {
-    eachNumbers: Array(37)
+    eachNumbers: Array(36)
       .fill()
-      .map((_, i) => i),
+      .map((_, i) => i + 1),
     columnNumbers: () => {
       return [1, 2, 3].map((num) => {
         return Array(12)
@@ -183,11 +184,6 @@ export default function ContextProvider({ children }) {
     setHalfV2(winArrays.halfNumbersV2());
     setHalfV3(winArrays.halfNumbersV3());
     setRow(winArrays.rowNumbers());
-    console.log(
-      winArrays.halfNumbersV1(),
-      winArrays.halfNumbersV2(),
-      winArrays.halfNumbersV3()
-    );
   }, [spin]);
 
   useEffect(() => {
@@ -210,100 +206,51 @@ export default function ContextProvider({ children }) {
         ? plays.push("RED")
         : plays.push("BLACK");
       lastWinningNumber % 2 === 0 ? plays.push("EVEN") : plays.push("ODD");
-      for (let i = 0; i <= 2; i++) {
-        column[i].includes(lastWinningNumber) && plays.push(`COLUMN_${i}`);
+      const playGroups = [
+        // { array: each, prefix: "EACH", index: 36 },
+        { array: column, prefix: "COLUMN", index: 2 },
+        { array: dozen, prefix: "DOZEN", index: 2 },
+        { array: halfRow, prefix: "HALFROW", index: 10 },
+        { array: row, prefix: "ROW", index: 11 },
+        { array: halfH1, prefix: "HALFH1", index: 11 },
+        { array: halfH2, prefix: "HALFH2", index: 11 },
+        { array: halfV1, prefix: "HALFV1", index: 10 },
+        { array: halfV2, prefix: "HALFV2", index: 10 },
+        { array: halfV3, prefix: "HALFV3", index: 10 },
+      ];
+      for (let play of playGroups) {
+        for (let i = 0; i <= play.index; i++) {
+          play.array[i].includes(lastWinningNumber) &&
+            plays.push(`${play.prefix}_${i}`);
+        }
       }
-      for (let i = 0; i <= 2; i++) {
-        dozen[i].includes(lastWinningNumber) && plays.push(`DOZEN_${i}`);
+      for (let i = 0; i <= each.length - 1; i++) {
+        i === lastWinningNumber && plays.push(`EACH_${i}`);
       }
-      for (let i = 0; i <= 10; i++) {
-        halfRow[i].includes(lastWinningNumber) && plays.push(`HALFROW_${i}`);
-      }
-      for (let i = 0; i <= 11; i++) {
-        row[i].includes(lastWinningNumber) && plays.push(`ROW_${i}`);
-      }
-      for (let i = 0; i <= 11; i++) {
-        halfH1[i].includes(lastWinningNumber) && plays.push(`HALFH1_${i}`);
-      }
-      for (let i = 0; i <= 11; i++) {
-        halfH2[i].includes(lastWinningNumber) && plays.push(`HALFH2_${i}`);
-      }
-      for (let i = 0; i <= 10; i++) {
-        halfV1[i].includes(lastWinningNumber) && plays.push(`HALFV1_${i}`);
-      }
-      for (let i = 0; i <= 10; i++) {
-        halfV2[i].includes(lastWinningNumber) && plays.push(`HALFV2_${i}`);
-      }
-      for (let i = 0; i <= 10; i++) {
-        halfV3[i].includes(lastWinningNumber) && plays.push(`HALFV3_${i}`);
-      }
-      console.log(
-        halfH2,
-        halfH2Play,
-        plays,
-        halfH2[7].includes(lastWinningNumber)
-      );
     }
-    Object.keys(otoPlay).forEach(
-      (value) =>
-        plays.includes(value) &&
-        otoPlay[value] > 0 &&
-        setBankValue((prevState) => prevState + otoPlay[value] * 2)
-    );
-    Object.keys(ttbPlay).forEach(
-      (value) =>
-        plays.includes(value) &&
-        ttbPlay[value] > 0 &&
-        setBankValue((prevState) => prevState + ttbPlay[value] * 2)
-    );
-    Object.keys(bo3Play).forEach(
-      (value) =>
-        plays.includes(value) &&
-        bo3Play[value] > 0 &&
-        setBankValue((prevState) => prevState + bo3Play[value] * 2)
-    );
-    Object.keys(ttbbetPlay).forEach(
-      (value) =>
-        plays.includes(value) &&
-        ttbbetPlay[value] > 0 &&
-        setBankValue((prevState) => prevState + ttbbetPlay[value] * 2)
-    );
-    Object.keys(rowPlay).forEach(
-      (value) =>
-        plays.includes(value) &&
-        rowPlay[value] > 0 &&
-        setBankValue((prevState) => prevState + rowPlay[value] * 2)
-    );
-    Object.keys(halfH1Play).forEach(
-      (value) =>
-        plays.includes(value) &&
-        halfH1Play[value] > 0 &&
-        setBankValue((prevState) => prevState + halfH1Play[value] * 2)
-    );
-    Object.keys(halfH2Play).forEach(
-      (value) =>
-        plays.includes(value) &&
-        halfH2Play[value] > 0 &&
-        setBankValue((prevState) => prevState + halfH2Play[value] * 2)
-    );
-    Object.keys(halfV1Play).forEach(
-      (value) =>
-        plays.includes(value) &&
-        halfV1Play[value] > 0 &&
-        setBankValue((prevState) => prevState + halfV1Play[value] * 2)
-    );
-    Object.keys(halfV2Play).forEach(
-      (value) =>
-        plays.includes(value) &&
-        halfV2Play[value] > 0 &&
-        setBankValue((prevState) => prevState + halfV2Play[value] * 2)
-    );
-    Object.keys(halfV3Play).forEach(
-      (value) =>
-        plays.includes(value) &&
-        halfV3Play[value] > 0 &&
-        setBankValue((prevState) => prevState + halfV3Play[value] * 2)
-    );
+    const verifyPlay = {
+      eachPlay,
+      otoPlay,
+      ttbPlay,
+      bo3Play,
+      ttbbetPlay,
+      rowPlay,
+      halfH1Play,
+      halfH2Play,
+      halfV1Play,
+      halfV2Play,
+      halfV3Play,
+    };
+
+    Object.keys(verifyPlay).forEach((variableName) => {
+      const variable = verifyPlay[variableName];
+      Object.keys(variable).forEach((value) => {
+        if (plays.includes(value) && variable[value] > 0) {
+          setBankValue((prevState) => prevState + variable[value] * 2);
+        }
+      });
+    });
+
     setCurrentBet(0);
     Object.keys(otoPlay).forEach((key) =>
       setOtoPlay((prevState) => ({ ...prevState, [key]: 0 }))
@@ -390,6 +337,7 @@ export default function ContextProvider({ children }) {
     sethalfV1Play,
     sethalfV2Play,
     sethalfV3Play,
+    setEachPlay,
   };
   return (
     <CasinoContext.Provider value={casinoContextvalues}>
