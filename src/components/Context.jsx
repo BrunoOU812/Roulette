@@ -60,8 +60,8 @@ export default function ContextProvider({ children }) {
   const [halfV3Play, sethalfV3Play] = useState({});
   const [halfBoard1Play, setHalfBoard1Play] = useState({});
   const [halfBoard2Play, setHalfBoard2Play] = useState({});
-
-  const [winningNumber, setWinningNumber] = useState(0);
+  // const [plays, setPlays] = useState([]);
+  const [winningNumber, setWinningNumber] = useState(null);
   const [clear, clearBet] = useState(false);
   const numRed = [
     1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36,
@@ -241,90 +241,94 @@ export default function ContextProvider({ children }) {
     }
   }, [currentBet]);
 
-  useEffect(() => {
+  const startBetPlays = (lastWinningNumber) => {
     const plays = [];
-    const lastWinningNumber = previousNumbers[previousNumbers.length - 1];
-    if (previousNumbers.length > 0) {
-      numRed.includes(lastWinningNumber)
-        ? plays.push("RED")
-        : plays.push("BLACK");
-      lastWinningNumber % 2 === 0 ? plays.push("EVEN") : plays.push("ODD");
-      const playGroups = [
-        { array: column, prefix: "COLUMN", index: 2 },
-        { array: dozen, prefix: "DOZEN", index: 2 },
-        { array: halfRow, prefix: "HALFROW", index: 10 },
-        { array: row, prefix: "ROW", index: 11 },
-        { array: quarter1, prefix: "QUARTER1", index: 10 },
-        { array: quarter2, prefix: "QUARTER2", index: 10 },
-        { array: halfH1, prefix: "HALFH1", index: 11 },
-        { array: halfH2, prefix: "HALFH2", index: 11 },
-        { array: halfV1, prefix: "HALFV1", index: 10 },
-        { array: halfV2, prefix: "HALFV2", index: 10 },
-        { array: halfV3, prefix: "HALFV3", index: 10 },
-        // { array: halfBoard1, prefix: "HALFBoard1", index: 1 },
-        // { array: halfBoard2, prefix: "HALFBoard2", index: 1 },
-      ];
-      for (let play of playGroups) {
-        for (let i = 0; i <= play.index; i++) {
-          play.array[i].includes(lastWinningNumber) &&
-            plays.push(`${play.prefix}_${i}`);
-        }
+    numRed.includes(lastWinningNumber)
+      ? plays.push("RED")
+      : plays.push("BLACK");
+    lastWinningNumber % 2 === 0 ? plays.push("EVEN") : plays.push("ODD");
+    const playGroups = [
+      { array: column, prefix: "COLUMN", index: 2 },
+      { array: dozen, prefix: "DOZEN", index: 2 },
+      { array: halfRow, prefix: "HALFROW", index: 10 },
+      { array: row, prefix: "ROW", index: 11 },
+      { array: quarter1, prefix: "QUARTER1", index: 10 },
+      { array: quarter2, prefix: "QUARTER2", index: 10 },
+      { array: halfH1, prefix: "HALFH1", index: 11 },
+      { array: halfH2, prefix: "HALFH2", index: 11 },
+      { array: halfV1, prefix: "HALFV1", index: 10 },
+      { array: halfV2, prefix: "HALFV2", index: 10 },
+      { array: halfV3, prefix: "HALFV3", index: 10 },
+    ];
+    for (let play of playGroups) {
+      for (let i = 0; i <= play.index; i++) {
+        play.array[i].includes(lastWinningNumber) &&
+          plays.push(`${play.prefix}_${i}`);
       }
-      for (let i = 0; i <= each.length - 1; i++) {
-        i === lastWinningNumber && plays.push(`EACH_${i}`);
-      }
-      for (let i = 0; i <= halfBoard1.length - 1; i++) {
-        halfBoard1.includes(lastWinningNumber) && plays.push(`HALFBOARD1_${i}`);
-      }
-      for (let i = 0; i <= halfBoard2.length - 1; i++) {
-        halfBoard2.includes(lastWinningNumber) && plays.push(`HALFBOARD2_${i}`);
-      }
-      0 === lastWinningNumber && plays.push(`ZERO_0`);
     }
+    for (let i = 0; i <= each.length - 1; i++) {
+      i === lastWinningNumber && plays.push(`EACH_${i}`);
+    }
+    for (let i = 0; i <= halfBoard1.length - 1; i++) {
+      halfBoard1.includes(lastWinningNumber) && plays.push(`HALFBOARD1_${i}`);
+    }
+    for (let i = 0; i <= halfBoard2.length - 1; i++) {
+      halfBoard2.includes(lastWinningNumber) && plays.push(`HALFBOARD2_${i}`);
+    }
+    0 === lastWinningNumber && plays.push(`ZERO_0`);
+    return plays;
+  };
+  const setWinningPlays = (plays) => {
+    console.log(plays);
     console.log(
-      plays,
-      "quarter1",
-      halfBoard1,
-      "quarter2",
-      halfBoard2,
-      "quarter1Play",
+      zeroPlay,
+      eachPlay,
+      otoPlay,
+      ttbPlay,
+      bo3Play,
+      rowPlay,
+      quarter1Play,
+      quarter2Play,
+      halfH1Play,
+      halfH2Play,
+      halfV1Play,
+      halfV2Play,
+      halfV3Play,
       halfBoard1Play,
-      "quarter2Play",
       halfBoard2Play
     );
     const verifyPlay = [
-      { vrbl: zeroPlay, fnct: setZeroPlay },
-      { vrbl: eachPlay, fnct: setEachPlay },
-      { vrbl: otoPlay, fnct: setOtoPlay },
-      { vrbl: ttbPlay, fnct: setTtbPlay },
-      { vrbl: bo3Play, fnct: setBo3Play },
-      { vrbl: ttbbetPlay, fnct: setTtbbetPlay },
-      { vrbl: rowPlay, fnct: setRowPlay },
-      { vrbl: quarter1Play, fnct: setQuarter1Play },
-      { vrbl: quarter2Play, fnct: setQuarter2Play },
-      { vrbl: halfH1Play, fnct: sethalfH1Play },
-      { vrbl: halfH2Play, fnct: sethalfH2Play },
-      { vrbl: halfV1Play, fnct: sethalfV1Play },
-      { vrbl: halfV2Play, fnct: sethalfV2Play },
-      { vrbl: halfV3Play, fnct: sethalfV3Play },
-      { vrbl: halfBoard1Play, fnct: setHalfBoard1Play },
-      { vrbl: halfBoard2Play, fnct: setHalfBoard2Play },
+      { vrbl: zeroPlay, fnct: setZeroPlay, bet: rules.each },
+      { vrbl: eachPlay, fnct: setEachPlay, bet: rules.each },
+      { vrbl: otoPlay, fnct: setOtoPlay, bet: rules.color },
+      { vrbl: ttbPlay, fnct: setTtbPlay, bet: rules.each },
+      { vrbl: bo3Play, fnct: setBo3Play, bet: rules.dozen },
+      // { vrbl: ttbbetPlay, fnct: setTtbbetPlay, bet: rules.each },
+      { vrbl: rowPlay, fnct: setRowPlay, bet: rules.row },
+      { vrbl: quarter1Play, fnct: setQuarter1Play, bet: rules.quarter },
+      { vrbl: quarter2Play, fnct: setQuarter2Play, bet: rules.quarter },
+      { vrbl: halfH1Play, fnct: sethalfH1Play, bet: rules.half },
+      { vrbl: halfH2Play, fnct: sethalfH2Play, bet: rules.half },
+      { vrbl: halfV1Play, fnct: sethalfV1Play, bet: rules.half },
+      { vrbl: halfV2Play, fnct: sethalfV2Play, bet: rules.half },
+      { vrbl: halfV3Play, fnct: sethalfV3Play, bet: rules.half },
+      { vrbl: halfBoard1Play, fnct: setHalfBoard1Play, bet: rules.color },
+      { vrbl: halfBoard2Play, fnct: setHalfBoard2Play, bet: rules.color },
     ];
-    verifyPlay.forEach(({ vrbl, fnct }) => {
+    verifyPlay.forEach(({ vrbl, fnct, bet }) => {
       Object.keys(vrbl).forEach((value) => {
         if (plays.includes(value) && vrbl[value] > 0) {
-          setBankValue((prevState) => prevState + vrbl[value] * 2);
+          setBankValue((prevState) => prevState + vrbl[value] * bet);
         }
       });
     });
 
     verifyPlay.forEach(({ vrbl, fnct }) => {
-      Object.keys(vrbl).forEach((key) =>
-        fnct((prevState) => ({ ...prevState, [key]: 0 }))
-      );
+      Object.keys(vrbl).forEach((_) => fnct({}));
     });
     setCurrentBet(0);
-  }, [previousNumbers]);
+    // setPlays([]);
+  };
 
   const setBet = ({ chip, setChip, setChipValue }) => {
     if (!spin) {
@@ -412,6 +416,8 @@ export default function ContextProvider({ children }) {
     setQuarter2Play,
     setHalfBoard1Play,
     setHalfBoard2Play,
+    startBetPlays,
+    setWinningPlays,
   };
   return (
     <CasinoContext.Provider value={casinoContextvalues}>

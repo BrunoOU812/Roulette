@@ -7,10 +7,12 @@ import PocketsRim from "./PocketsRim";
 import ThendOne from "./ThendOne";
 import ThendTwo from "./ThendTwo";
 import Turret from "./Turret";
+import styles from "../assets/styles.module.scss";
 import TurretHandle from "./TurretHandle";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useCasino } from "../Context";
 import Ball from "./Ball";
+import { v4 as uuidv4 } from "uuid";
 export default function Wheel() {
   const {
     spin,
@@ -19,7 +21,11 @@ export default function Wheel() {
     clearBet,
     setPreviousNumbers,
     setWinningNumber,
+    winningNumber,
+    startBetPlays,
+    setWinningPlays,
   } = useCasino();
+  const [allowWheel, setAllowWheel] = useState(false);
   const [ballAnimation, setBallAnimation] = useState(
     "ballRotate 1s linear infinite"
   );
@@ -40,9 +46,11 @@ export default function Wheel() {
     .map((_, i) => {
       const a = i + 1;
       const spanClass = numbers[i] < 10 ? "single" : "double";
+      // console.log(a);
+      const uniqueKey = uuidv4();
       return (
         <Sect
-          key={i}
+          key={uniqueKey}
           id={"sect" + a}
           number={numbers[i]}
           spanClass={spanClass}
@@ -59,6 +67,7 @@ export default function Wheel() {
           setRotationTo(i * 9.73 + 362);
         }
       });
+      const plays = startBetPlays(winningSpin);
 
       setStyle(true);
       setTimeout(() => {}, 2000);
@@ -76,11 +85,11 @@ export default function Wheel() {
         setStyle(false);
         clearBet(true);
         setRotationFrom(rotationTo);
+        setWinningPlays(plays);
         setPreviousNumbers((prevState) => [...prevState, winningSpin]);
       }, 50);
     }
   }, [spin]);
-
   return (
     <div className="wheel" style={style ? { animation: `${wheelRotate}` } : {}}>
       <HelmetProvider>

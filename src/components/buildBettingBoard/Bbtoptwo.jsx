@@ -43,6 +43,15 @@ export default function Bbtoptwo(props) {
           chipValue: chipValue,
           setChipValue: setChipValue,
         });
+        props.index === 0
+          ? setHalfBoard1Play((prevState) => ({
+              ...prevState,
+              [`HALFBOARD1_${props.index}`]: chipValue,
+            }))
+          : setHalfBoard2Play((prevState) => ({
+              ...prevState,
+              [`HALFBOARD2_${props.index}`]: chipValue,
+            }));
       }}
     >
       {props.children}

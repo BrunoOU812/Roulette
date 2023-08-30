@@ -1,19 +1,7 @@
-import Wheel from "./components/buildWheel/Wheel";
-import ContextProvider from "./components/Context";
-import BettingBoard from "./components/buildBettingBoard/BettingBoard";
-import SpinBtn from "./components/buildBettingBoard/SpinBtn";
+import Roulette from "./components/Roulette";
+import "./components/assets/styles.css";
 function App() {
-  return (
-    <ContextProvider>
-      <div className="App" style={{ fontFamily: "arial" }}>
-        <div id="container">
-          <Wheel />
-          <BettingBoard />
-          <SpinBtn />
-        </div>
-      </div>
-    </ContextProvider>
-  );
+  return <Roulette />;
 }
 
 export default App;
