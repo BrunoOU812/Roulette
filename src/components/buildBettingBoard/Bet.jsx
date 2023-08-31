@@ -1,5 +1,5 @@
 import React from "react";
-
+import styles from "../assets/styles.module.scss";
 export default function Bet(props) {
-  return <div className="bet">{props.children}</div>;
+  return <div className={styles["bet"]}>{props.children}</div>;
 }

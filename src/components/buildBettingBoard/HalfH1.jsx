@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useCasino } from "../Context";
+import styles from "../assets/styles.module.scss";
 
 export default function HalfH1(props) {
   const [chip, setChip] = useState(false);
@@ -23,7 +24,7 @@ export default function HalfH1(props) {
   }, [chipValue, clear]);
   return (
     <div
-      className={`ttbbetblock`}
+      className={styles[`ttbbetblock`]}
       onClick={() => {
         setBet({ chip: chip, setChip: setChip, setChipValue: setChipValue });
         sethalfH1Play((prevState) => ({
@@ -44,8 +45,8 @@ export default function HalfH1(props) {
       }}
     >
       {chip && (
-        <div className={`chip ${chipColour}`}>
-          <div className="chipSpan">{chipValue}</div>
+        <div className={`${styles[`chip`]} ${styles[`${chipColour}`]}`}>
+          <div className={styles["chipSpan"]}>{chipValue}</div>
         </div>
       )}
     </div>

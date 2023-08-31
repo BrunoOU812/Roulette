@@ -8,11 +8,11 @@ import HalfRowBlock from "./HalfRowBlock";
 import RowBlock from "./RowBlock";
 import HalfH1 from "./HalfH1";
 import HalfH2 from "./HalfH2";
-
+import styles from "../assets/styles.module.scss";
 export default function Wl() {
   return (
     <div className="winning_lines">
-      <Wlttb id={`wlttb_top`}>
+      <Wlttb id={styles[`wlttb_top`]}>
         {Array(11)
           .fill()
           .map((_, i) => {
@@ -24,7 +24,7 @@ export default function Wl() {
         .map((_, c) => {
           let d = c;
           return (
-            <Wlttb key={c} id={`wlttb_${c + 1}`}>
+            <Wlttb key={c} id={styles[`wlttb_${c + 1}`]}>
               {Array(12)
                 .fill()
                 .map((_, i) => {

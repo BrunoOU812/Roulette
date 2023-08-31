@@ -5,11 +5,12 @@ import NumberBlock from "./NumberBlock";
 import Nbn from "./Nbn";
 import { useCasino } from "../Context";
 import { v4 } from "uuid";
+import styles from "../assets/styles.module.scss";
 export default function NumberBoard(props) {
   const { setBet, removeBet, uuidv4 } = useCasino();
   let ttbIndex = -1;
   return (
-    <div className="number_board">
+    <div className={styles["number_board"]}>
       {" "}
       <Zero>
         <Nbnz>{0}</Nbnz>
@@ -64,15 +65,17 @@ export default function NumberBoard(props) {
           ttbIndex++;
         }
         let colourClass = redBlocks.includes(num)
-          ? " redNum"
+          ? "redNum"
           : nbClass == "number_block"
-          ? " blackNum"
+          ? "blackNum"
           : "";
         const key = v4();
         return (
           <NumberBlock
             key={`numberBlock${i}`}
-            className={`${nbClass + colourClass}`}
+            className1={[`${styles[`${nbClass}`]}`]}
+            className2={[`${styles[`${colourClass}`]}`]}
+            // className2={[`${colourClass}`]}
             ttbIndex={ttbIndex}
             num={num}
           >

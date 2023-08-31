@@ -1,5 +1,5 @@
 import React from "react";
-
+import styles from "../assets/styles.module.scss";
 export default function Ball() {
-  return <div className="ball"></div>;
+  return <div className={styles["ball"]}></div>;
 }

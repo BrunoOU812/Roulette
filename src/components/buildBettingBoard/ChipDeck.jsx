@@ -1,10 +1,11 @@
 import React from "react";
 import CdChip from "./CdChip";
 import ChipSpan from "./ChipSpan";
+import styles from "../assets/styles.module.scss";
 
 export default function ChipDeck(props) {
   return (
-    <div className="chipDeck">
+    <div className={styles["chipDeck"]}>
       {[1, 5, 10, 100, "clear"].map((_, i, arr) => {
         let chipColour =
           i == 0
@@ -19,7 +20,8 @@ export default function ChipDeck(props) {
         return (
           <CdChip
             key={i}
-            className={`cdChip ${chipColour}`}
+            className1={`cdChip`}
+            className2={`${chipColour}`}
             arr={arr}
             index={i}
           >

@@ -45,8 +45,7 @@ export default function Wheel() {
     .fill()
     .map((_, i) => {
       const a = i + 1;
-      const spanClass = numbers[i] < 10 ? "single" : "double";
-      // console.log(a);
+      const spanClass = numbers[i] < 10 ? styles["single"] : styles["double"];
       const uniqueKey = uuidv4();
       return (
         <Sect
@@ -91,7 +90,10 @@ export default function Wheel() {
     }
   }, [spin]);
   return (
-    <div className="wheel" style={style ? { animation: `${wheelRotate}` } : {}}>
+    <div
+      className={styles["wheel"]}
+      style={style ? { animation: `${wheelRotate}` } : {}}
+    >
       <HelmetProvider>
         <Helmet>
           <style>
@@ -108,7 +110,7 @@ export default function Wheel() {
       <OuterRim />
       {sectElements}
       <div
-        className={`ballTrack`}
+        className={styles[`ballTrack`]}
         style={{
           animation: `${style && ballAnimation}`,
           transform: `rotate(-${rotationTo}deg)`,

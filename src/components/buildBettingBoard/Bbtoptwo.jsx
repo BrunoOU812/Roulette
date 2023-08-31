@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useCasino } from "../Context";
+import styles from "../assets/styles.module.scss";
 
 export default function Bbtoptwo(props) {
   const [chip, setChip] = useState(false);
@@ -24,7 +25,7 @@ export default function Bbtoptwo(props) {
 
   return (
     <div
-      className="bbtoptwo"
+      className={styles["bbtoptwo"]}
       onClick={() => {
         setBet({ chip: chip, setChip: setChip, setChipValue: setChipValue });
         props.index === 0
@@ -56,8 +57,8 @@ export default function Bbtoptwo(props) {
     >
       {props.children}
       {chip && (
-        <div className={`chip ${chipColour}`}>
-          <div className="chipSpan">{chipValue}</div>
+        <div className={`${styles.chip} ${styles[chipColour]}`}>
+          <div className={styles["chipSpan"]}>{chipValue}</div>
         </div>
       )}
     </div>

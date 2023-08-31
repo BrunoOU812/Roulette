@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from "../assets/styles.module.scss";
 import { useCasino } from "../Context";
 
 export default function CdChip(props) {
@@ -17,7 +18,9 @@ export default function CdChip(props) {
   const arr = props.arr;
   return (
     <div
-      className={`${props.className} ${chipActive[i] && "cdChipActive"}`}
+      className={`${styles[props.className1]} ${styles[props.className2]} ${
+        chipActive[i] && styles["cdChipActive"]
+      }`}
       onClick={() => {
         if (!spin) {
           if (cvi !== 4) {

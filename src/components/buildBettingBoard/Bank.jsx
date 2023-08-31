@@ -1,5 +1,5 @@
 import React from "react";
-
+import styles from "../assets/styles.module.scss";
 export default function Bank(props) {
-  return <div className="bank">{props.children}</div>;
+  return <div className={styles["bank"]}>{props.children}</div>;
 }

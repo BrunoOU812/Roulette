@@ -1,9 +1,10 @@
 import React from "react";
 import Bo3Block from "./Bo3Block";
+import styles from "../assets/styles.module.scss";
 
-export default function Bo3Board(props) {
+export default function Bo3Board() {
   return (
-    <div className="bo3_board">
+    <div className={styles["bo3_board"]}>
       {" "}
       {["1 to 12", "13 to 24", "25 to 36"].map((_, i, arr) => {
         return (

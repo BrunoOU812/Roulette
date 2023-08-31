@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useCasino } from "../Context";
+import styles from "../assets/styles.module.scss";
 
 export default function NumberBlock(props) {
   const [chip, setChip] = useState(false);
@@ -20,9 +21,15 @@ export default function NumberBlock(props) {
       setChip(false);
     }
   }, [chipValue, clear]);
+  const combinedStyles = [
+    styles[props.className1],
+    styles[props.className2],
+  ].join(" ");
+
   return (
     <div
-      className={props.className}
+      // className={`${styles[props.className1]} ${styles[props.className2]}`}
+      className={`${props.className1} ${props.className2}`}
       onClick={() => {
         setBet({ chip: chip, setChip: setChip, setChipValue: setChipValue });
         props.className === "tt1_block"
@@ -54,8 +61,8 @@ export default function NumberBlock(props) {
     >
       {props.children}
       {chip && (
-        <div className={`chip ${chipColour}`}>
-          <div className="chipSpan">{chipValue}</div>
+        <div className={`${styles[`chip`]} ${styles[`${chipColour}`]}`}>
+          <div className={styles["chipSpan"]}>{chipValue}</div>
         </div>
       )}
     </div>

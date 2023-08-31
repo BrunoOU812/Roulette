@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useCasino } from "../Context";
+import styles from "../assets/styles.module.scss";
 
 export default function Cbbb(props) {
   const [chip, setChip] = useState(false);
@@ -23,8 +24,8 @@ export default function Cbbb(props) {
   }, [chipValue, clear]);
   return (
     <div
-      id={`cbbb_${props.index + 1}`}
-      className={`cbbb`}
+      id={styles[`cbbb_${props.index + 1}`]}
+      className={styles[`cbbb`]}
       onClick={() => {
         setBet({ chip: chip, setChip: setChip, setChipValue: setChipValue });
         props.wlcbIndex === 0
@@ -55,8 +56,8 @@ export default function Cbbb(props) {
       }}
     >
       {chip && (
-        <div className={`chip ${chipColour}`}>
-          <div className="chipSpan">{chipValue}</div>
+        <div className={`${styles[`chip`]} ${styles[`${chipColour}`]}`}>
+          <div className={styles["chipSpan"]}>{chipValue}</div>
         </div>
       )}
     </div>

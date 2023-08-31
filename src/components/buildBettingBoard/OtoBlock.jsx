@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useCasino } from "../Context";
+import styles from "../assets/styles.module.scss";
 
 export default function OtoBlock(props) {
   const [chip, setChip] = useState(false);
@@ -22,7 +23,7 @@ export default function OtoBlock(props) {
   }, [chipValue, clear]);
   return (
     <div
-      className={props.className}
+      className={`${styles[props.className1]} ${styles[props.className2]}`}
       onClick={() => {
         setBet({ chip, setChip, setChipValue });
         setOtoPlay((prevState) => ({
@@ -40,8 +41,8 @@ export default function OtoBlock(props) {
     >
       {props.type}
       {chip && (
-        <div className={`chip ${chipColour}`}>
-          <div className="chipSpan">{chipValue}</div>
+        <div className={`${styles[`chip`]} ${styles[chipColour]}`}>
+          <div className={styles["chipSpan"]}>{chipValue}</div>
         </div>
       )}
     </div>

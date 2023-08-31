@@ -7,10 +7,11 @@ import PnBlock from "./PnBlock";
 import Bbtop from "./Bbtop";
 import NumberBoard from "./NumberBoard";
 import Wl from "./Wl";
+import styles from "../assets/styles.module.scss";
 
 export default function BettingBoard() {
   return (
-    <div id="betting_board">
+    <div id={styles["betting_board"]}>
       <Wl />
       <Bbtop />
       <NumberBoard />
